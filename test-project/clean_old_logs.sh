@@ -13,7 +13,12 @@ if [ ! -d "$LOG_DIR" ]; then
     exit 1
 fi
 
-OLD_FILES=$(find "$LOG_DIR" -maxdepth 1 -name "*.log" -type f -mtime +"$DAYS")
+# Для совместимости с разными системами
+if command -v find &> /dev/null; then
+    OLD_FILES=$(find "$LOG_DIR" -maxdepth 1 -name "*.log" -type f -mtime +"$DAYS" 2>/dev/null)
+else
+    OLD_FILES=$(ls "$LOG_DIR"/*.log 2>/dev/null)
+fi
 
 if [ -z "$OLD_FILES" ]; then
     echo "Нет файлов .log старше $DAYS дней"
