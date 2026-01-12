@@ -1,7 +1,8 @@
 services:
   web:
-    image: my-web-app:latest
     build: .
+    image: my-web-app:latest
     ports:
       - "8080:80"
-    container_name: my-web-app-container
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
